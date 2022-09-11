@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
-* Студент: [Максим Кудряков](https://up.htmlacademy.ru/univer-js1/1/user/2221361).
-* Наставник: `Неизвестно`.
+* Студент: [Максим Кудряков](https://up.htmlacademy.ru/univer-js1/1/user/2221361).gi
+* Наставник: [Геннадий Максимов](https://htmlacademy.ru/profile/gennadiy).
 
 ---
 
