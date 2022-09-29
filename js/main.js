@@ -41,7 +41,6 @@ const NAMES = ['Джон', 'Стив', 'Илон', 'Кассандра', 'Соф
  чтобы каждому из них создать уникальный индентификатор
 */
 const USERS_COUNT = 1000;
-const USERS_ID = [];
 
 const createCommentData = (id) => ({
   id: id,
@@ -52,14 +51,12 @@ const createCommentData = (id) => ({
 
 const createComment = () => {
   const commentaries = [];
-  for (let i = 1; i <= USERS_COUNT; i++) {
-    USERS_ID.push(i);
-  }
   for (let i = 0; i < COMMENTS.length; i++){
-    const randomID = USERS_ID[getRandomNumber(0, USERS_ID.length - 1)];
-    commentaries[i] = createCommentData(getRandomNumber(1, USERS_COUNT));
-    USERS_ID[randomID, USERS_ID.length - 1] = USERS_ID[USERS_ID.length - 1, randomID];
-    USERS_ID.pop();
+    if (i % 2 === 0) {
+      commentaries[i] = createCommentData(getRandomNumber(1, USERS_COUNT / 2));
+      continue;
+    }
+    commentaries[i] = createCommentData(getRandomNumber(Math.ceil(USERS_COUNT / 2 + 1), USERS_COUNT));
   }
   return commentaries;
 };
