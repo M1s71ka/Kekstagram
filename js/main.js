@@ -1,30 +1,16 @@
-// Функция взята с сайта https://up.htmlacademy.ru/univer-js1/1/tasks/7 и доработана.
-const getRandomNumber = (minimum, maximum) => {
-  minimum = Math.ceil(Math.min(Math.abs(minimum), Math.abs(maximum)));
-  maximum = Math.floor(Math.max(Math.abs(minimum), Math.abs(maximum)));
-  return Math.floor(Math.random() * (maximum - minimum + 1) + minimum);
-};
+const MAX_COUNT_PHOTOS = 25;
+const MAX_COUNT_COMMENTS = 8;
 
-const isLengthCorrect = (comment, maxLength) => comment.length <= maxLength;
+const MIN_LIKES = 15;
+const MAX_LIKES = 200;
 
-const PHOTOS = [undefined, undefined, undefined, undefined, undefined,
-  undefined, undefined, undefined, undefined, undefined,
-  undefined, undefined, undefined, undefined, undefined,
-  undefined,undefined, undefined, undefined, undefined,
-  undefined, undefined, undefined, undefined, undefined];
-
-const COMMENTS = [undefined, undefined];
+const COUNT_AVATAR = 6;
 
 const DESCRIPTION = [
   'Крутая фотка',
   'Если бы мои мысли можно было отразить на фотке, то это было бы так',
   'Эмоции зашкаливают'
 ];
-
-const MIN_LIKES = 15;
-const MAX_LIKES = 200;
-
-const COUNT_AVATAR = 6;
 
 const MESSAGES = [
   'Всё отлично!',
@@ -37,10 +23,14 @@ const MESSAGES = [
 
 const NAMES = ['Джон', 'Стив', 'Илон', 'Кассандра', 'София', 'Эбигейл'];
 
-/* Предположим, что на нашем сайте зарегистрировано 1000 пользователей для того,
- чтобы каждому из них создать уникальный индентификатор
-*/
-const USERS_COUNT = 1000;
+// Функция взята с сайта https://up.htmlacademy.ru/univer-js1/1/tasks/7 и доработана.
+const getRandomNumber = (minimum, maximum) => {
+  minimum = Math.ceil(Math.min(Math.abs(minimum), Math.abs(maximum)));
+  maximum = Math.floor(Math.max(Math.abs(minimum), Math.abs(maximum)));
+  return Math.floor(Math.random() * (maximum - minimum + 1) + minimum);
+};
+
+const isLengthCorrect = (comment, maxLength) => comment.length <= maxLength;
 
 const createCommentData = (id) => ({
   id: id,
@@ -50,15 +40,8 @@ const createCommentData = (id) => ({
 });
 
 const createComment = () => {
-  const commentaries = [];
-  for (let i = 0; i < COMMENTS.length; i++){
-    if (i % 2 === 0) {
-      commentaries[i] = createCommentData(getRandomNumber(1, USERS_COUNT / 2));
-      continue;
-    }
-    commentaries[i] = createCommentData(getRandomNumber(Math.ceil(USERS_COUNT / 2 + 1), USERS_COUNT));
-  }
-  return commentaries;
+  const comments = Array.from({length:MAX_COUNT_COMMENTS}).map((element, index) => createCommentData(index + 1));
+  return comments;
 };
 
 const createPhotoData = (index) => ({
@@ -69,11 +52,11 @@ const createPhotoData = (index) => ({
   comments: createComment(),
 });
 
-const createDescription = (photos) => {
-  const depictions = photos.map((element,index) => createPhotoData(index));
+const createDescription = () => {
+  const depictions = Array.from({length:MAX_COUNT_PHOTOS}).map((element,index) => createPhotoData(index));
   return depictions;
 };
 
-createDescription(PHOTOS);
+createDescription();
 
 isLengthCorrect('Классная фотка', 20);
