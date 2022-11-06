@@ -1,17 +1,17 @@
 const MAX_COUNT_PHOTOS = 25;
 const MAX_COUNT_COMMENTS = 8;
 
-const COUNT_LIKES = {
-  MIN_LIKES : 15,
-  MAX_LIKES : 200,
+const CountLike = {
+  MIN: 15,
+  MAX: 200,
 };
 
-const AVATAR_ID = {
-  MIN_ID : 1,
-  MAX_ID : 6,
+const AvatarId = {
+  MIN: 1,
+  MAX: 6,
 };
 
-const DESCRIPTION = [
+const DESCRIPTIONS = [
   'Крутая фотка',
   'Если бы мои мысли можно было отразить на фотке, то это было бы так',
   'Эмоции зашкаливают'
@@ -28,4 +28,4 @@ const MESSAGES = [
 
 const NAMES = ['Джон', 'Стив', 'Илон', 'Кассандра', 'София', 'Эбигейл'];
 
-export {MAX_COUNT_PHOTOS, MAX_COUNT_COMMENTS, COUNT_LIKES, AVATAR_ID, DESCRIPTION, MESSAGES, NAMES};
+export {MAX_COUNT_PHOTOS, MAX_COUNT_COMMENTS, CountLike, AvatarId, DESCRIPTIONS, MESSAGES, NAMES};
