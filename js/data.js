@@ -9,10 +9,7 @@ const createCommentData = (id) => ({
   name: NAMES[getRandomNumber(0, NAMES.length - 1)]
 });
 
-const createComment = () => {
-  const comments = Array.from({length:MAX_COUNT_COMMENTS}).map((_, index) => createCommentData(index + 1));
-  return comments;
-};
+const createComment = () => Array.from({length:MAX_COUNT_COMMENTS}).map((_, index) => createCommentData(index + 1));
 
 const createPhotoData = (index) => ({
   id: index + 1,
