@@ -1,3 +1,4 @@
-import {createDescription} from './data.js';
+import {insertThumbnailsMarkup, photosContainer} from './thumbnails.js';
 
-createDescription();
+insertThumbnailsMarkup(photosContainer);
+
