@@ -1,4 +1,6 @@
-import {insertThumbnailsMarkup, photosContainer} from './thumbnails.js';
+import {createDescriptions} from './data.js';
+import {insertThumbnailsMarkup} from './thumbnails.js';
 
-insertThumbnailsMarkup(photosContainer);
+const photosData = createDescriptions();
 
+insertThumbnailsMarkup(photosData);

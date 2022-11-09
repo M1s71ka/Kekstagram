@@ -19,6 +19,6 @@ const createPhotoData = (index) => ({
   comments: createComment(),
 });
 
-const createDescription = () => Array.from({length:MAX_COUNT_PHOTOS}).map((_,index) => createPhotoData(index));
+const createDescriptions = () => Array.from({length:MAX_COUNT_PHOTOS}).map((_,index) => createPhotoData(index));
 
-export {createDescription};
+export {createDescriptions};
