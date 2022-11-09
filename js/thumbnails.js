@@ -6,11 +6,11 @@ const generateThumbnailsMarkup = ({url, likes, comments}) => `<a href="#" class=
 </p>
 </a>`;
 
+const photosContainer = document.querySelector('.pictures');
+
 const insertThumbnailsMarkup = (photosData) => {
   photosContainer.insertAdjacentHTML('beforeend', photosData.map((photo) => generateThumbnailsMarkup(photo))
     .join(''));
 };
-
-const photosContainer = document.querySelector('.pictures');
 
 export {insertThumbnailsMarkup};
