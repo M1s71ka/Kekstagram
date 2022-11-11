@@ -1,3 +1,6 @@
-import {createDescription} from './data.js';
+import {createDescriptions} from './data.js';
+import {insertThumbnailsMarkup} from './thumbnails.js';
 
-createDescription();
+const photosData = createDescriptions();
+
+insertThumbnailsMarkup(photosData);
