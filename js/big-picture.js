@@ -40,7 +40,7 @@ const popUpBigPicture = (picture) => {
   bigPictureImage.src = picture.url;
   bigPictureLikes.textContent = picture.likes;
   bigPictureCountComments.textContent = picture.comments.length;
-  const comments = picture.comments;
+  const comments = picture.comments.slice();
   initComments(comments);
   bigPictureDescription.textContent = picture.description;
   closeButton.addEventListener('click', onCloseButton);
