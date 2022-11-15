@@ -1,5 +1,9 @@
 const MAX_COUNT_PHOTOS = 25;
-const MAX_COUNT_COMMENTS = 8;
+
+const CountComments = {
+  MIN: 0,
+  MAX: 8,
+}
 
 const CountLike = {
   MIN: 15,
@@ -28,4 +32,4 @@ const MESSAGES = [
 
 const NAMES = ['Джон', 'Стив', 'Илон', 'Кассандра', 'София', 'Эбигейл'];
 
-export {MAX_COUNT_PHOTOS, MAX_COUNT_COMMENTS, CountLike, AvatarId, DESCRIPTIONS, MESSAGES, NAMES};
+export {MAX_COUNT_PHOTOS, CountComments, CountLike, AvatarId, DESCRIPTIONS, MESSAGES, NAMES};
