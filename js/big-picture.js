@@ -26,7 +26,6 @@ const onCloseButton = () => {
 };
 
 const onEscKeyDown = (evt) => {
-	console.log(evt.keyCode);
 	if (evt.keyCode === 27) {
 		document.body.classList.remove('modal-open');
 		bigPictureContainer.classList.add('hidden');
