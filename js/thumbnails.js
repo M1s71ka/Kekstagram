@@ -13,12 +13,12 @@ const generateThumbnailsMarkup = ({id, url, likes, comments}) => `<a href="#" cl
 </a>`;
 
 const onThumbnailClick = (evt) => {
-	evt.preventDefault();
-	const target = evt.target;
-	const picture = target.closest('.picture');
-	const pictureID = picture.dataset.id;
-	const depiction = depictions[pictureID - 1];
-	popUpBigPicture(depiction);
+  evt.preventDefault();
+  const target = evt.target;
+  const picture = target.closest('.picture');
+  const pictureID = picture.dataset.id;
+  const depiction = depictions[pictureID - 1];
+  popUpBigPicture(depiction);
 };
 
 const createThumbnailsMarkup = () => {
@@ -27,10 +27,10 @@ const createThumbnailsMarkup = () => {
 };
 
 const initThumbnails = (photosData) => {
-	depictions = photosData.slice();
-	createThumbnailsMarkup();
-	const pictures = photosContainer.querySelectorAll('.picture');
-	pictures.forEach((photo) => photo.addEventListener('click', onThumbnailClick))
+  depictions = photosData.slice();
+  createThumbnailsMarkup();
+  const pictures = photosContainer.querySelectorAll('.picture');
+  pictures.forEach((photo) => photo.addEventListener('click', onThumbnailClick));
 };
 
 export {initThumbnails};

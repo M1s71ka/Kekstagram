@@ -3,7 +3,7 @@ const MAX_COUNT_PHOTOS = 25;
 const CountComments = {
   MIN: 0,
   MAX: 8,
-}
+};
 
 const CountLike = {
   MIN: 15,

@@ -23,14 +23,14 @@ const onCloseButton = () => {
   window.removeEventListener('click', onEscKeyDown);
 };
 
-const onEscKeyDown = (evt) => {
+function onEscKeyDown(evt){
   if (evt.keyCode === 27) {
     document.body.classList.remove('modal-open');
-	bigPictureContainer.classList.add('hidden');
-	closeButton.removeEventListener('click', onCloseButton);
-	window.removeEventListener('keydown', onEscKeyDown);
+    bigPictureContainer.classList.add('hidden');
+    closeButton.removeEventListener('click', onCloseButton);
+    window.removeEventListener('keydown', onEscKeyDown);
   }
-};
+}
 
 const popUpBigPicture = (picture) => {
   document.body.classList.add('modal-open');
@@ -40,10 +40,10 @@ const popUpBigPicture = (picture) => {
   bigPictureImage.src = picture.url;
   bigPictureLikes.textContent = picture.likes;
   bigPictureCountComments.textContent = picture.comments.length;
-  const comments = picture.comments;	
+  const comments = picture.comments;
   initComments(comments);
   bigPictureDescription.textContent = picture.description;
-  closeButton.addEventListener('click', onCloseButton); 
+  closeButton.addEventListener('click', onCloseButton);
   window.addEventListener('keydown', onEscKeyDown);
 };
 
