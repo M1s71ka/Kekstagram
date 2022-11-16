@@ -1,6 +1,6 @@
 import {getRandomNumber} from './utils.js';
 
-import {MAX_COUNT_PHOTOS, MAX_COUNT_COMMENTS, CountLike, AvatarId, DESCRIPTIONS, MESSAGES, NAMES} from './constants.js';
+import {MAX_COUNT_PHOTOS, CountComments, CountLike, AvatarId, DESCRIPTIONS, MESSAGES, NAMES} from './constants.js';
 
 const createCommentData = (id) => ({
   id: id,
@@ -9,7 +9,7 @@ const createCommentData = (id) => ({
   name: NAMES[getRandomNumber(0, NAMES.length - 1)]
 });
 
-const createComment = () => Array.from({length:MAX_COUNT_COMMENTS}).map((_, index) => createCommentData(index + 1));
+const createComment = () => Array.from({length:getRandomNumber(CountComments.MIN, CountComments.MAX)}).map((_, index) => createCommentData(index + 1));
 
 const createPhotoData = (index) => ({
   id: index + 1,
