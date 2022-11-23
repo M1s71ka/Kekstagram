@@ -1,3 +1,5 @@
+import {isEscKeyDown} from './utils.js';
+
 const bigPictureContainer = document.querySelector('.big-picture');
 const bigPictureImage = bigPictureContainer.querySelector('.big-picture__img img');
 const bigPictureLikes = bigPictureContainer.querySelector('.likes-count');
@@ -16,19 +18,21 @@ const initComments = (commentaries) => {
   bigPictureComments.insertAdjacentHTML('afterbegin', commentaries.map((comment) => generateCommentsMarkup(comment)).join(''));
 };
 
-const onCloseButton = () => {
+const closePopUp = () => {
   document.body.classList.remove('modal-open');
   bigPictureContainer.classList.add('hidden');
   closeButton.removeEventListener('click', onCloseButton);
-  window.removeEventListener('click', onEscKeyDown);
+  window.removeEventListener('keydown', onEscKeyDown);
 };
 
+function onCloseButton(evt){
+  evt.preventDefault();
+  closePopUp();
+}
+
 function onEscKeyDown(evt){
-  if (evt.keyCode === 27) {
-    document.body.classList.remove('modal-open');
-    bigPictureContainer.classList.add('hidden');
-    closeButton.removeEventListener('click', onCloseButton);
-    window.removeEventListener('keydown', onEscKeyDown);
+  if (isEscKeyDown(evt)) {
+    closePopUp();
   }
 }
 

@@ -6,4 +6,6 @@ const getRandomNumber = (minimum, maximum) => {
 
 const isLengthCorrect = (comment, maxLength) => comment.length <= maxLength;
 
-export {getRandomNumber, isLengthCorrect};
+const isEscKeyDown = (evt) => evt.keyCode === 27;
+
+export {getRandomNumber, isLengthCorrect, isEscKeyDown};
