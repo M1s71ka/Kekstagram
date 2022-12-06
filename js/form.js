@@ -1,5 +1,6 @@
 import {isEscKeyDown, isLengthCorrect} from './utils.js';
-import {MAX_COMMENT_LENGTH, MAX_HASHTAG_COUNT, MAX_HASHTAG_LENGTH, ErrorMessage} from './constants.js';
+import {MAX_COMMENT_LENGTH, MAX_HASHTAG_COUNT, MAX_HASHTAG_LENGTH, ErrorMessage, SCALE_STEP} from './constants.js';
+import {createSlider} from './slider.js';
 
 const form = document.querySelector('.img-upload__form');
 const photoLoader = document.querySelector('#upload-file');
@@ -9,6 +10,11 @@ const submitButton = document.querySelector('.img-upload__submit');
 const fieldWrapper = document.querySelector('.img-upload__text');
 const hashtagField = form.querySelector('.text__hashtags');
 const commentField = form.querySelector('.text__description');
+const smallerButton = document.querySelector('.scale__control--smaller');
+const biggerButton = document.querySelector('.scale__control--bigger');
+const scaleField = document.querySelector('.scale__control--value');
+const previewPhoto = document.querySelector('.img-upload__preview');
+const effectSlider = document.querySelector('.effect-level__slider');
 const regexp = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
 
 const pristine = new Pristine(form, {
@@ -16,6 +22,24 @@ const pristine = new Pristine(form, {
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__error-text'
 });
+
+function onSmallerButtonClick() {
+  biggerButton.disabled = false;
+  scaleField.value = `${(+scaleField.value.slice(0, -1) - SCALE_STEP).toString()  }%`;
+  previewPhoto.setAttribute('style', `filter: ${previewPhoto.style.filter}; transform: scale(${(+scaleField.value.slice(0, -1)) / 100});`);
+  if (scaleField.value === '25%') {
+    smallerButton.disabled = true;
+  }
+}
+
+function onBiggerButtonClick() {
+  smallerButton.disabled = false;
+  scaleField.value = `${(+scaleField.value.slice(0, -1) + SCALE_STEP).toString()  }%`;
+  previewPhoto.setAttribute('style', `filter: ${previewPhoto.style.filter}; transform: scale(${(+scaleField.value.slice(0, -1)) / 100});`);
+  if (scaleField.value === '100%') {
+    biggerButton.disabled = true;
+  }
+}
 
 let errorMessage = '';
 
@@ -114,15 +138,6 @@ const uploadPhoto = () => {
   validateForm();
 };
 
-const closeEditor = () => {
-  document.body.classList.remove('modal-open');
-  photoEditor.classList.add('hidden');
-  photoLoader.value = '';
-  hashtagField.value = '';
-  closeEditorButton.removeEventListener('click', onCloseEditorButton);
-  window.removeEventListener('keydown', onEscKeyDown);
-};
-
 const onSubmitButton = () => {
   let isActive = true;
   for (const elem of fieldWrapper.children) {
@@ -131,6 +146,23 @@ const onSubmitButton = () => {
     }
   }
   submitButton.disabled = !isActive;
+};
+
+const closeEditor = () => {
+  document.body.classList.remove('modal-open');
+  photoEditor.classList.add('hidden');
+  photoLoader.value = '';
+  hashtagField.value = '';
+  smallerButton.removeAttribute('disabled');
+  biggerButton.removeAttribute('disabled');
+  previewPhoto.removeAttribute('style');
+  effectSlider.classList.add('hidden');
+  hashtagField.removeEventListener('input', onSubmitButton);
+  commentField.removeEventListener('input', onSubmitButton);
+  smallerButton.removeEventListener('click', onSmallerButtonClick);
+  biggerButton.removeEventListener('click', onBiggerButtonClick);
+  closeEditorButton.removeEventListener('click', onCloseEditorButton);
+  window.removeEventListener('keydown', onEscKeyDown);
 };
 
 const removeEscEvent = (field) => {
@@ -145,8 +177,15 @@ const removeEscEvent = (field) => {
 function onUploadPhoto() {
   document.body.classList.add('modal-open');
   photoEditor.classList.remove('hidden');
+  scaleField.value = '100%';
+  if (!effectSlider.hasChildNodes()) {
+    createSlider();
+  }
   hashtagField.addEventListener('input', onSubmitButton);
   commentField.addEventListener('input', onSubmitButton);
+  biggerButton.disabled = true;
+  smallerButton.addEventListener('click', onSmallerButtonClick);
+  biggerButton.addEventListener('click', onBiggerButtonClick);
   closeEditorButton.addEventListener('click', onCloseEditorButton);
   window.addEventListener('keydown', onEscKeyDown);
   removeEscEvent(hashtagField);

@@ -3,6 +3,7 @@ const MAX_COMMENT_LENGTH = 140;
 const MAX_HASHTAG_COUNT = 5;
 const MAX_HASHTAG_LENGTH = 20;
 const COUNT_COMMENTS_BLOCK = 5;
+const SCALE_STEP = 25;
 
 const ErrorMessage = {
   STARTS_WITH_HASH: 'Хэш-тег начинается с символа #',
@@ -48,4 +49,4 @@ const MESSAGES = [
 const NAMES = ['Джон', 'Стив', 'Илон', 'Кассандра', 'София', 'Эбигейл'];
 
 export {MAX_COUNT_PHOTOS, CountComments, CountLike, AvatarId, DESCRIPTIONS, MESSAGES, NAMES, MAX_COMMENT_LENGTH, MAX_HASHTAG_COUNT,
-  MAX_HASHTAG_LENGTH, ErrorMessage, COUNT_COMMENTS_BLOCK};
+  MAX_HASHTAG_LENGTH, ErrorMessage, COUNT_COMMENTS_BLOCK, SCALE_STEP};
