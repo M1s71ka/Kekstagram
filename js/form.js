@@ -184,8 +184,8 @@ const onUploadPhoto = () => {
   if (!effectSlider.hasChildNodes()) {
     createSlider();
   }
-  hashtagField.addEventListener('input', onSubmitButton);
-  commentField.addEventListener('input', onSubmitButton);
+  hashtagField.addEventListener('input', onHashtagInputField);
+  commentField.addEventListener('input', onCommentInputField);
   biggerButton.disabled = true;
   smallerButton.addEventListener('click', onSmallerButtonClick);
   biggerButton.addEventListener('click', onBiggerButtonClick);
