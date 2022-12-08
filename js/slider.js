@@ -1,4 +1,4 @@
-import {Filter, FilterEffect} from "./constants.js";
+import {Filter, FilterEffect} from './constants.js';
 
 const effectSlider = document.querySelector('.effect-level__slider');
 const effectsContainer = document.querySelector('.effects__list');
@@ -27,15 +27,15 @@ const removeEffect = () => {
 const changeImageEffect = (effect, symbol = '') => {
   effectSlider.noUiSlider.off();
   removeEffect();
-  if (effect != 'none') {	
-  	previewImage.classList.add(`effects__preview--${effect}`);
-	effectSlider.classList.remove('hidden');
+  if (effect !== 'none') {
+    previewImage.classList.add(`effects__preview--${effect}`);
+    effectSlider.classList.remove('hidden');
   } else {
     effectSlider.classList.add('hidden');
   }
   effectSlider.noUiSlider.on('update', () => {
-	previewImage.style.filter = (effect !== 'none') ? `${effect}(${effectSlider.noUiSlider.get()}${symbol})` : 'none';
-  	effectLevel.value = effectSlider.noUiSlider.get();
+    previewImage.style.filter = (effect !== 'none') ? `${effect}(${effectSlider.noUiSlider.get()}${symbol})` : 'none';
+    effectLevel.value = effectSlider.noUiSlider.get();
   });
 };
 
@@ -44,10 +44,10 @@ function onEffectContainerClick(evt) {
   switch (effectParametr) {
     case Filter.NONE:
       updateSliderOptions(1, 100, 100, 1);
-	  changeImageEffect(FilterEffect.NONE);      
+      changeImageEffect(FilterEffect.NONE);
       break;
     case Filter.CHROME:
-      updateSliderOptions(0, 1, 1, 0.1);     
+      updateSliderOptions(0, 1, 1, 0.1);
       changeImageEffect(FilterEffect.GRAYSCALE);
       break;
     case Filter.SEPIA:

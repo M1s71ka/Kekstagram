@@ -133,11 +133,6 @@ const validateForm = () => {
   pristine.addValidator(commentField, isValidComment, getErrorMessage);
 };
 
-const uploadPhoto = () => {
-  photoLoader.addEventListener('change', onUploadPhoto);
-  validateForm();
-};
-
 const onSubmitButton = () => {
   let isActive = true;
   for (const elem of fieldWrapper.children) {
@@ -198,7 +193,7 @@ const onUploadPhoto = () => {
   window.addEventListener('keydown', onEscKeyDown);
   removeEscEvent(hashtagField);
   removeEscEvent(commentField);
-}
+};
 
 function onCloseEditorButton(evt) {
   evt.preventDefault();
@@ -210,5 +205,10 @@ function onEscKeyDown(evt) {
     closeEditor();
   }
 }
+
+const uploadPhoto = () => {
+  photoLoader.addEventListener('change', onUploadPhoto);
+  validateForm();
+};
 
 export {uploadPhoto};
