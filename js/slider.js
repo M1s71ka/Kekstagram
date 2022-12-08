@@ -1,3 +1,5 @@
+import {Filter, FilterEffect} from "./constants.js";
+
 const effectSlider = document.querySelector('.effect-level__slider');
 const effectsContainer = document.querySelector('.effects__list');
 const previewImage = document.querySelector('.img-upload__preview');
@@ -16,78 +18,59 @@ const updateSliderOptions = (minValue, maxValue, startValue, stepValue) => {
   });
 };
 
-const updateImageStyle = (value, symbol = '') => {
-  previewImage.style.filter = (value !== 'none') ? `${value}(${effectSlider.noUiSlider.get()}${symbol})` : 'none';
-  effectLevel.value = `${effectSlider.noUiSlider.get()}${symbol}`;
-};
-
 const removeEffect = () => {
   if (previewImage.classList.item(1)) {
     previewImage.classList.remove(previewImage.classList.item(1));
   }
 };
 
-function onEffectClick(evt) {
+const changeImageEffect = (effect, symbol = '') => {
+  effectSlider.noUiSlider.off();
+  removeEffect();
+  if (effect != 'none') {	
+  	previewImage.classList.add(`effects__preview--${effect}`);
+	effectSlider.classList.remove('hidden');
+  } else {
+    effectSlider.classList.add('hidden');
+  }
+  effectSlider.noUiSlider.on('update', () => {
+	previewImage.style.filter = (effect !== 'none') ? `${effect}(${effectSlider.noUiSlider.get()}${symbol})` : 'none';
+  	effectLevel.value = effectSlider.noUiSlider.get();
+  });
+};
+
+function onEffectContainerClick(evt) {
   effectParametr = evt.target.id;
   switch (effectParametr) {
-    case 'effect-none':
+    case Filter.NONE:
       updateSliderOptions(1, 100, 100, 1);
-      removeEffect();
-      effectSlider.noUiSlider.on('update', () => {
-        updateImageStyle('none');
-      });
-      effectSlider.classList.add('hidden');
+	  changeImageEffect(FilterEffect.NONE);      
       break;
-    case 'effect-chrome':
+    case Filter.CHROME:
+      updateSliderOptions(0, 1, 1, 0.1);     
+      changeImageEffect(FilterEffect.GRAYSCALE);
+      break;
+    case Filter.SEPIA:
       updateSliderOptions(0, 1, 1, 0.1);
-      effectSlider.classList.remove('hidden');
-      removeEffect();
-      previewImage.classList.add('.effects__preview--chrome');
-      effectSlider.noUiSlider.on('update', () => {
-        updateImageStyle('grayscale');
-      });
+      changeImageEffect(FilterEffect.SEPIA);
       break;
-    case 'effect-sepia':
-      updateSliderOptions(0, 1, 1, 0.1);
-      effectSlider.classList.remove('hidden');
-      removeEffect();
-      previewImage.classList.add('.effects__preview--sepia');
-      effectSlider.noUiSlider.on('update', () => {
-        updateImageStyle('sepia');
-      });
-      break;
-    case 'effect-marvin':
+    case Filter.MARVIN:
       updateSliderOptions(0, 100, 100, 1);
-      effectSlider.classList.remove('hidden');
-      removeEffect();
-      previewImage.classList.add('.effects__preview--marvin');
-      effectSlider.noUiSlider.on('update', () => {
-        updateImageStyle('invert', '%');
-      });
+      changeImageEffect(FilterEffect.INVERT, '%');
       break;
-    case 'effect-phobos':
+    case Filter.PHOBOS:
       updateSliderOptions(0, 3, 3, 0.1);
-      effectSlider.classList.remove('hidden');
-      removeEffect();
-      previewImage.classList.add('.effects__preview--phobos');
-      effectSlider.noUiSlider.on('update', () => {
-        updateImageStyle('blur', 'px');
-      });
+      changeImageEffect(FilterEffect.BLUR, 'px');
       break;
-    case 'effect-heat':
+    case Filter.HEAT:
       updateSliderOptions(1, 3, 3, 0.1);
-      effectSlider.classList.remove('hidden');
-      removeEffect();
-      previewImage.classList.add('.effects__preview--heat');
-      effectSlider.noUiSlider.on('update', () => {
-        updateImageStyle('brightness');
-      });
+      changeImageEffect(FilterEffect.BRIGHTNESS);
       break;
   }
 }
 
 const createSlider = () => {
-  effectsContainer.addEventListener('click', onEffectClick);
+  effectsContainer.addEventListener('click', onEffectContainerClick);
   noUiSlider.create(effectSlider, {
     range: {
       min: 0,
@@ -100,4 +83,4 @@ const createSlider = () => {
   effectSlider.classList.add('hidden');
 };
 
-export {createSlider};
+export {createSlider, removeEffect};

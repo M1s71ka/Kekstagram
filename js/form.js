@@ -1,6 +1,6 @@
 import {isEscKeyDown, isLengthCorrect} from './utils.js';
-import {MAX_COMMENT_LENGTH, MAX_HASHTAG_COUNT, MAX_HASHTAG_LENGTH, ErrorMessage, SCALE_STEP} from './constants.js';
-import {createSlider} from './slider.js';
+import {MAX_COMMENT_LENGTH, MAX_HASHTAG_COUNT, MAX_HASHTAG_LENGTH, ErrorMessage, SCALE_STEP, ScaleValue} from './constants.js';
+import {createSlider, removeEffect} from './slider.js';
 
 const form = document.querySelector('.img-upload__form');
 const photoLoader = document.querySelector('#upload-file');
@@ -27,7 +27,7 @@ function onSmallerButtonClick() {
   biggerButton.disabled = false;
   scaleField.value = `${(+scaleField.value.slice(0, -1) - SCALE_STEP).toString()  }%`;
   previewPhoto.setAttribute('style', `filter: ${previewPhoto.style.filter}; transform: scale(${(+scaleField.value.slice(0, -1)) / 100});`);
-  if (scaleField.value === '25%') {
+  if (scaleField.value === ScaleValue.MIN) {
     smallerButton.disabled = true;
   }
 }
@@ -36,7 +36,7 @@ function onBiggerButtonClick() {
   smallerButton.disabled = false;
   scaleField.value = `${(+scaleField.value.slice(0, -1) + SCALE_STEP).toString()  }%`;
   previewPhoto.setAttribute('style', `filter: ${previewPhoto.style.filter}; transform: scale(${(+scaleField.value.slice(0, -1)) / 100});`);
-  if (scaleField.value === '100%') {
+  if (scaleField.value === ScaleValue.MAX) {
     biggerButton.disabled = true;
   }
 }
@@ -148,21 +148,29 @@ const onSubmitButton = () => {
   submitButton.disabled = !isActive;
 };
 
+const onHashtagInputField = () => {
+  onSubmitButton();
+};
+
+const onCommentInputField = () => {
+  onSubmitButton();
+};
+
 const closeEditor = () => {
   document.body.classList.remove('modal-open');
   photoEditor.classList.add('hidden');
-  photoLoader.value = '';
-  hashtagField.value = '';
   smallerButton.removeAttribute('disabled');
   biggerButton.removeAttribute('disabled');
   previewPhoto.removeAttribute('style');
   effectSlider.classList.add('hidden');
-  hashtagField.removeEventListener('input', onSubmitButton);
-  commentField.removeEventListener('input', onSubmitButton);
+  removeEffect();
+  hashtagField.removeEventListener('input', onHashtagInputField);
+  commentField.removeEventListener('input', onCommentInputField);
   smallerButton.removeEventListener('click', onSmallerButtonClick);
   biggerButton.removeEventListener('click', onBiggerButtonClick);
   closeEditorButton.removeEventListener('click', onCloseEditorButton);
   window.removeEventListener('keydown', onEscKeyDown);
+  form.reset();
 };
 
 const removeEscEvent = (field) => {
@@ -174,10 +182,10 @@ const removeEscEvent = (field) => {
   });
 };
 
-function onUploadPhoto() {
+const onUploadPhoto = () => {
   document.body.classList.add('modal-open');
   photoEditor.classList.remove('hidden');
-  scaleField.value = '100%';
+  scaleField.value = ScaleValue.MAX;
   if (!effectSlider.hasChildNodes()) {
     createSlider();
   }
