@@ -1,5 +1,6 @@
 import {Filter, FilterEffect} from './constants.js';
 
+const EFFECT_CLASS_POSITION = 1;
 const effectSlider = document.querySelector('.effect-level__slider');
 const effectsContainer = document.querySelector('.effects__list');
 const previewImage = document.querySelector('.img-upload__preview');
@@ -19,15 +20,15 @@ const updateSliderOptions = (minValue, maxValue, startValue, stepValue) => {
 };
 
 const removeEffect = () => {
-  if (previewImage.classList.item(1)) {
-    previewImage.classList.remove(previewImage.classList.item(1));
+  if (previewImage.classList.item(EFFECT_CLASS_POSITION)) {
+    previewImage.classList.remove(previewImage.classList.item(EFFECT_CLASS_POSITION));
   }
 };
 
 const changeImageEffect = (effect, symbol = '') => {
   effectSlider.noUiSlider.off();
   removeEffect();
-  if (effect !== 'none') {
+  if (effect !== FilterEffect.NONE) {
     previewImage.classList.add(`effects__preview--${effect}`);
     effectSlider.classList.remove('hidden');
   } else {

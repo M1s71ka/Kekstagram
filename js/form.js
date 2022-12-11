@@ -1,5 +1,5 @@
 import {isEscKeyDown, isLengthCorrect} from './utils.js';
-import {MAX_COMMENT_LENGTH, MAX_HASHTAG_COUNT, MAX_HASHTAG_LENGTH, ErrorMessage, SCALE_STEP, ScaleValue} from './constants.js';
+import {MAX_COMMENT_LENGTH, MAX_HASHTAG_COUNT, MAX_HASHTAG_LENGTH, ErrorMessage, Scale} from './constants.js';
 import {createSlider, removeEffect} from './slider.js';
 
 const form = document.querySelector('.img-upload__form');
@@ -23,22 +23,19 @@ const pristine = new Pristine(form, {
   errorTextClass: 'img-upload__error-text'
 });
 
+const onScaleButtonClick = (difference) => {
+  let scaleValue = Number(scaleField.value.replace('%', '')) + difference;
+  scaleValue = Math.min(Math.max(scaleValue, Number(Scale.MIN.replace('%', ''))), Number(Scale.MAX.replace('%', '')));
+  previewPhoto.setAttribute('style', `filter: ${previewPhoto.style.filter}; transform: scale(${scaleValue / 100});`);
+  scaleField.value = `${scaleValue}%`;
+};
+
 function onSmallerButtonClick() {
-  biggerButton.disabled = false;
-  scaleField.value = `${(+scaleField.value.slice(0, -1) - SCALE_STEP).toString()  }%`;
-  previewPhoto.setAttribute('style', `filter: ${previewPhoto.style.filter}; transform: scale(${(+scaleField.value.slice(0, -1)) / 100});`);
-  if (scaleField.value === ScaleValue.MIN) {
-    smallerButton.disabled = true;
-  }
+  onScaleButtonClick(-Scale.STEP);
 }
 
 function onBiggerButtonClick() {
-  smallerButton.disabled = false;
-  scaleField.value = `${(+scaleField.value.slice(0, -1) + SCALE_STEP).toString()  }%`;
-  previewPhoto.setAttribute('style', `filter: ${previewPhoto.style.filter}; transform: scale(${(+scaleField.value.slice(0, -1)) / 100});`);
-  if (scaleField.value === ScaleValue.MAX) {
-    biggerButton.disabled = true;
-  }
+  onScaleButtonClick(Scale.STEP);
 }
 
 let errorMessage = '';
@@ -154,8 +151,6 @@ const onCommentInputField = () => {
 const closeEditor = () => {
   document.body.classList.remove('modal-open');
   photoEditor.classList.add('hidden');
-  smallerButton.removeAttribute('disabled');
-  biggerButton.removeAttribute('disabled');
   previewPhoto.removeAttribute('style');
   effectSlider.classList.add('hidden');
   removeEffect();
@@ -180,13 +175,12 @@ const removeEscEvent = (field) => {
 const onUploadPhoto = () => {
   document.body.classList.add('modal-open');
   photoEditor.classList.remove('hidden');
-  scaleField.value = ScaleValue.MAX;
+  scaleField.value = Scale.MAX;
   if (!effectSlider.hasChildNodes()) {
     createSlider();
   }
   hashtagField.addEventListener('input', onHashtagInputField);
   commentField.addEventListener('input', onCommentInputField);
-  biggerButton.disabled = true;
   smallerButton.addEventListener('click', onSmallerButtonClick);
   biggerButton.addEventListener('click', onBiggerButtonClick);
   closeEditorButton.addEventListener('click', onCloseEditorButton);
