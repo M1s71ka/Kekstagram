@@ -1,5 +1,6 @@
 import {isEscKeyDown, isLengthCorrect} from './utils.js';
-import {MAX_COMMENT_LENGTH, MAX_HASHTAG_COUNT, MAX_HASHTAG_LENGTH, ErrorMessage} from './constants.js';
+import {MAX_COMMENT_LENGTH, MAX_HASHTAG_COUNT, MAX_HASHTAG_LENGTH, ErrorMessage, Scale} from './constants.js';
+import {createSlider, removeEffect} from './slider.js';
 
 const form = document.querySelector('.img-upload__form');
 const photoLoader = document.querySelector('#upload-file');
@@ -9,6 +10,11 @@ const submitButton = document.querySelector('.img-upload__submit');
 const fieldWrapper = document.querySelector('.img-upload__text');
 const hashtagField = form.querySelector('.text__hashtags');
 const commentField = form.querySelector('.text__description');
+const smallerButton = document.querySelector('.scale__control--smaller');
+const biggerButton = document.querySelector('.scale__control--bigger');
+const scaleField = document.querySelector('.scale__control--value');
+const previewPhoto = document.querySelector('.img-upload__preview');
+const effectSlider = document.querySelector('.effect-level__slider');
 const regexp = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
 
 const pristine = new Pristine(form, {
@@ -16,6 +22,21 @@ const pristine = new Pristine(form, {
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__error-text'
 });
+
+const onScaleButtonClick = (difference) => {
+  let scaleValue = Number(scaleField.value.replace('%', '')) + difference;
+  scaleValue = Math.min(Math.max(scaleValue, Number(Scale.MIN.replace('%', ''))), Number(Scale.MAX.replace('%', '')));
+  previewPhoto.setAttribute('style', `filter: ${previewPhoto.style.filter}; transform: scale(${scaleValue / 100});`);
+  scaleField.value = `${scaleValue}%`;
+};
+
+function onSmallerButtonClick() {
+  onScaleButtonClick(-Scale.STEP);
+}
+
+function onBiggerButtonClick() {
+  onScaleButtonClick(Scale.STEP);
+}
 
 let errorMessage = '';
 
@@ -109,20 +130,6 @@ const validateForm = () => {
   pristine.addValidator(commentField, isValidComment, getErrorMessage);
 };
 
-const uploadPhoto = () => {
-  photoLoader.addEventListener('change', onUploadPhoto);
-  validateForm();
-};
-
-const closeEditor = () => {
-  document.body.classList.remove('modal-open');
-  photoEditor.classList.add('hidden');
-  photoLoader.value = '';
-  hashtagField.value = '';
-  closeEditorButton.removeEventListener('click', onCloseEditorButton);
-  window.removeEventListener('keydown', onEscKeyDown);
-};
-
 const onSubmitButton = () => {
   let isActive = true;
   for (const elem of fieldWrapper.children) {
@@ -131,6 +138,29 @@ const onSubmitButton = () => {
     }
   }
   submitButton.disabled = !isActive;
+};
+
+const onHashtagInputField = () => {
+  onSubmitButton();
+};
+
+const onCommentInputField = () => {
+  onSubmitButton();
+};
+
+const closeEditor = () => {
+  document.body.classList.remove('modal-open');
+  photoEditor.classList.add('hidden');
+  previewPhoto.removeAttribute('style');
+  effectSlider.classList.add('hidden');
+  removeEffect();
+  hashtagField.removeEventListener('input', onHashtagInputField);
+  commentField.removeEventListener('input', onCommentInputField);
+  smallerButton.removeEventListener('click', onSmallerButtonClick);
+  biggerButton.removeEventListener('click', onBiggerButtonClick);
+  closeEditorButton.removeEventListener('click', onCloseEditorButton);
+  window.removeEventListener('keydown', onEscKeyDown);
+  form.reset();
 };
 
 const removeEscEvent = (field) => {
@@ -142,16 +172,22 @@ const removeEscEvent = (field) => {
   });
 };
 
-function onUploadPhoto() {
+const onUploadPhoto = () => {
   document.body.classList.add('modal-open');
   photoEditor.classList.remove('hidden');
-  hashtagField.addEventListener('input', onSubmitButton);
-  commentField.addEventListener('input', onSubmitButton);
+  scaleField.value = Scale.MAX;
+  if (!effectSlider.hasChildNodes()) {
+    createSlider();
+  }
+  hashtagField.addEventListener('input', onHashtagInputField);
+  commentField.addEventListener('input', onCommentInputField);
+  smallerButton.addEventListener('click', onSmallerButtonClick);
+  biggerButton.addEventListener('click', onBiggerButtonClick);
   closeEditorButton.addEventListener('click', onCloseEditorButton);
   window.addEventListener('keydown', onEscKeyDown);
   removeEscEvent(hashtagField);
   removeEscEvent(commentField);
-}
+};
 
 function onCloseEditorButton(evt) {
   evt.preventDefault();
@@ -163,5 +199,10 @@ function onEscKeyDown(evt) {
     closeEditor();
   }
 }
+
+const uploadPhoto = () => {
+  photoLoader.addEventListener('change', onUploadPhoto);
+  validateForm();
+};
 
 export {uploadPhoto};

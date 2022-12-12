@@ -15,6 +15,30 @@ const ErrorMessage = {
   EMPTY_HASHTAG: 'Хэш-тег не может быть пустым',
 };
 
+const Scale = {
+  MIN: '25%',
+  MAX: '100%',
+  STEP: 25,
+};
+
+const Filter = {
+  NONE: 'effect-none',
+  CHROME: 'effect-chrome',
+  SEPIA: 'effect-sepia',
+  MARVIN: 'effect-marvin',
+  PHOBOS: 'effect-phobos',
+  HEAT: 'effect-heat',
+};
+
+const FilterEffect = {
+  NONE: 'none',
+  GRAYSCALE: 'grayscale',
+  SEPIA: 'sepia',
+  INVERT: 'invert',
+  BLUR: 'blur',
+  BRIGHTNESS: 'brightness',
+};
+
 const CountComments = {
   MIN: 0,
   MAX: 25,
@@ -48,4 +72,4 @@ const MESSAGES = [
 const NAMES = ['Джон', 'Стив', 'Илон', 'Кассандра', 'София', 'Эбигейл'];
 
 export {MAX_COUNT_PHOTOS, CountComments, CountLike, AvatarId, DESCRIPTIONS, MESSAGES, NAMES, MAX_COMMENT_LENGTH, MAX_HASHTAG_COUNT,
-  MAX_HASHTAG_LENGTH, ErrorMessage, COUNT_COMMENTS_BLOCK};
+  MAX_HASHTAG_LENGTH, ErrorMessage, COUNT_COMMENTS_BLOCK, Scale, Filter, FilterEffect};
