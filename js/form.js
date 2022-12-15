@@ -167,10 +167,10 @@ const closeEditor = () => {
 };
 
 const showErrorMessage = () => {
-	submitButton.disabled = false;
-	document.body.classList.remove('modal-open');
-  	photoEditor.classList.add('hidden');
-	getMessage(false);
+  submitButton.disabled = false;
+  document.body.classList.remove('modal-open');
+  photoEditor.classList.add('hidden');
+  getMessage(false);
 };
 
 const removeEscEvent = (field) => {
@@ -211,21 +211,21 @@ function onEscKeyDown(evt) {
 }
 
 const sendFormData = (onSuccess, onError) => {
-	form.addEventListener('submit', (evt) => {
-	  evt.preventDefault();
-	  submitButton.disabled = true;
-	  sendData(
-		() => {
-		  onSuccess();
-		  getMessage(true);
-		},
-		() => {
-		  onError();
-		},
-		new FormData(evt.target),
-	  );
-	});
-  };
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    submitButton.disabled = true;
+    sendData(
+      () => {
+        onSuccess();
+        getMessage(true);
+      },
+      () => {
+        onError();
+      },
+      new FormData(evt.target),
+    );
+  });
+};
 
 const uploadPhoto = () => {
   photoLoader.addEventListener('change', onUploadPhoto);

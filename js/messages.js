@@ -1,4 +1,4 @@
-import {isEscKeyDown} from "./utils.js";
+import {isEscKeyDown} from './utils.js';
 
 const sucessMessage = `<section class="success pop-message">
 <div class="success__inner message-part">
@@ -15,29 +15,29 @@ const errorMessage = `<section class="error pop-message">
 </section>`;
 
 const removeSuccessMessage = () => {
-	const message = document.querySelector('.pop-message');
-	message.remove();
+  const message = document.querySelector('.pop-message');
+  message.remove();
 };
 
 const removeErrorMessage = () => {
-	const message = document.querySelector('.pop-message');
-	if (message) {
-		message.remove();
-	}
-	document.body.classList.add('modal-open');
-	document.querySelector('.img-upload__overlay').classList.remove('hidden');
+  const message = document.querySelector('.pop-message');
+  if (message) {
+    message.remove();
+  }
+  document.body.classList.add('modal-open');
+  document.querySelector('.img-upload__overlay').classList.remove('hidden');
 };
 
 const onErrorEscKeydown = () => {
-	if (isEscKeyDown) {
-	  document.removeEventListener('keydown', onErrorEscKeydown);
-	  removeErrorMessage();
-	}
-  };
+  if (isEscKeyDown) {
+    document.removeEventListener('keydown', onErrorEscKeydown);
+    removeErrorMessage();
+  }
+};
 
 const onSuccessEscKeydown = () => {
   if (isEscKeyDown) {
-	document.removeEventListener('keydown', onSuccessEscKeydown);
+    document.removeEventListener('keydown', onSuccessEscKeydown);
     removeSuccessMessage();
   }
 };
@@ -45,27 +45,27 @@ const onSuccessEscKeydown = () => {
 function onWindowSuccessClick (evt) {
   const target = evt.target;
   if (target.closest('.pop-message') && !target.classList.contains('message-part')) {
-	document.removeEventListener('click', onWindowSuccessClick);
-	removeSuccessMessage();
+    document.removeEventListener('click', onWindowSuccessClick);
+    removeSuccessMessage();
   }
-};
+}
 
 function onWindowErrorClick (evt) {
   const target = evt.target;
   if (target.closest('.pop-message') && !target.classList.contains('message-part')) {
-	document.removeEventListener('click', onWindowErrorClick);
-	removeErrorMessage();
+    document.removeEventListener('click', onWindowErrorClick);
+    removeErrorMessage();
   }
-};
+}
 
 export const getMessage = (isSuccess) => {
-	document.body.insertAdjacentHTML('beforeend', isSuccess ? sucessMessage : errorMessage);
-	
-	if (isSuccess) {
-		document.addEventListener('click', onWindowSuccessClick);
-		document.addEventListener('keydown', onSuccessEscKeydown);
-	} else {
-		document.addEventListener('click', onWindowErrorClick);
-		document.addEventListener('keydown', onErrorEscKeydown);
-	}
+  document.body.insertAdjacentHTML('beforeend', isSuccess ? sucessMessage : errorMessage);
+
+  if (isSuccess) {
+    document.addEventListener('click', onWindowSuccessClick);
+    document.addEventListener('keydown', onSuccessEscKeydown);
+  } else {
+    document.addEventListener('click', onWindowErrorClick);
+    document.addEventListener('keydown', onErrorEscKeydown);
+  }
 };
