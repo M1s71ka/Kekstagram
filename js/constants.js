@@ -54,6 +54,11 @@ const AvatarId = {
   MAX: 6,
 };
 
+const Url = {
+  'GET': 'https://26.javascript.pages.academy/kekstagram/data',
+  'POST': 'https://26.javascript.pages.academy/kekstagram',
+};
+
 const DESCRIPTIONS = [
   'Крутая фотка',
   'Если бы мои мысли можно было отразить на фотке, то это было бы так',
@@ -72,4 +77,4 @@ const MESSAGES = [
 const NAMES = ['Джон', 'Стив', 'Илон', 'Кассандра', 'София', 'Эбигейл'];
 
 export {MAX_COUNT_PHOTOS, CountComments, CountLike, AvatarId, DESCRIPTIONS, MESSAGES, NAMES, MAX_COMMENT_LENGTH, MAX_HASHTAG_COUNT,
-  MAX_HASHTAG_LENGTH, ErrorMessage, COUNT_COMMENTS_BLOCK, Scale, Filter, FilterEffect};
+  MAX_HASHTAG_LENGTH, ErrorMessage, COUNT_COMMENTS_BLOCK, Scale, Filter, FilterEffect, Url};

@@ -1,6 +1,8 @@
 import {isEscKeyDown, isLengthCorrect} from './utils.js';
 import {MAX_COMMENT_LENGTH, MAX_HASHTAG_COUNT, MAX_HASHTAG_LENGTH, ErrorMessage, Scale} from './constants.js';
 import {createSlider, removeEffect} from './slider.js';
+import {sendData} from './api.js';
+import {getMessage} from './messages.js';
 
 const form = document.querySelector('.img-upload__form');
 const photoLoader = document.querySelector('#upload-file');
@@ -160,7 +162,15 @@ const closeEditor = () => {
   biggerButton.removeEventListener('click', onBiggerButtonClick);
   closeEditorButton.removeEventListener('click', onCloseEditorButton);
   window.removeEventListener('keydown', onEscKeyDown);
+  submitButton.disabled = false;
   form.reset();
+};
+
+const showErrorMessage = () => {
+	submitButton.disabled = false;
+	document.body.classList.remove('modal-open');
+  	photoEditor.classList.add('hidden');
+	getMessage(false);
 };
 
 const removeEscEvent = (field) => {
@@ -200,9 +210,27 @@ function onEscKeyDown(evt) {
   }
 }
 
+const sendFormData = (onSuccess, onError) => {
+	form.addEventListener('submit', (evt) => {
+	  evt.preventDefault();
+	  submitButton.disabled = true;
+	  sendData(
+		() => {
+		  onSuccess();
+		  getMessage(true);
+		},
+		() => {
+		  onError();
+		},
+		new FormData(evt.target),
+	  );
+	});
+  };
+
 const uploadPhoto = () => {
   photoLoader.addEventListener('change', onUploadPhoto);
   validateForm();
+  sendFormData(closeEditor, showErrorMessage);
 };
 
 export {uploadPhoto};

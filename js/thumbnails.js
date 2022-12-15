@@ -17,7 +17,7 @@ const onThumbnailClick = (evt) => {
   const target = evt.target;
   const picture = target.closest('.picture');
   const pictureID = picture.dataset.id;
-  const depiction = depictions[pictureID - 1];
+  const [depiction] = depictions.filter((item) => item.id === +pictureID);
   popUpBigPicture(depiction);
 };
 
