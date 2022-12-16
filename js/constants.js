@@ -1,4 +1,3 @@
-const MAX_COUNT_PHOTOS = 25;
 const MAX_COMMENT_LENGTH = 140;
 const MAX_HASHTAG_COUNT = 5;
 const MAX_HASHTAG_LENGTH = 20;
@@ -39,42 +38,10 @@ const FilterEffect = {
   BRIGHTNESS: 'brightness',
 };
 
-const CountComments = {
-  MIN: 0,
-  MAX: 25,
-};
-
-const CountLike = {
-  MIN: 15,
-  MAX: 200,
-};
-
-const AvatarId = {
-  MIN: 1,
-  MAX: 6,
-};
-
 const Url = {
   'GET': 'https://26.javascript.pages.academy/kekstagram/data',
   'POST': 'https://26.javascript.pages.academy/kekstagram',
 };
 
-const DESCRIPTIONS = [
-  'Крутая фотка',
-  'Если бы мои мысли можно было отразить на фотке, то это было бы так',
-  'Эмоции зашкаливают'
-];
-
-const MESSAGES = [
-  'Всё отлично!',
-  'В целом всё неплохо. Но не всё.',
-  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
-  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
-  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
-  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
-];
-
-const NAMES = ['Джон', 'Стив', 'Илон', 'Кассандра', 'София', 'Эбигейл'];
-
-export {MAX_COUNT_PHOTOS, CountComments, CountLike, AvatarId, DESCRIPTIONS, MESSAGES, NAMES, MAX_COMMENT_LENGTH, MAX_HASHTAG_COUNT,
+export {MAX_COMMENT_LENGTH, MAX_HASHTAG_COUNT,
   MAX_HASHTAG_LENGTH, ErrorMessage, COUNT_COMMENTS_BLOCK, Scale, Filter, FilterEffect, Url};
