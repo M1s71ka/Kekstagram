@@ -1,9 +1,8 @@
-import {createDescriptions} from './data.js';
 import {initThumbnails} from './thumbnails.js';
 import {uploadPhoto} from './form.js';
+import {getData} from './api.js';
+import {showAlert} from './utils.js';
 
-const photosData = createDescriptions();
-
-initThumbnails(photosData);
+getData((photos) => initThumbnails(photos), () => showAlert());
 
 uploadPhoto();
