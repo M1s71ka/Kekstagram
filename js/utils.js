@@ -1,4 +1,5 @@
 const ERROR_MESSAGE_DURATION = 5000;
+const FILTER_BUTTON_CLICK_DELAY = 500;
 
 const getRandomNumber = (minimum, maximum) => {
   minimum = Math.ceil(Math.min(Math.abs(minimum), Math.abs(maximum)));
@@ -26,4 +27,20 @@ const showAlert = () => {
   setTimeout(() => alertContainer.remove(), ERROR_MESSAGE_DURATION);
 };
 
-export {getRandomNumber, isLengthCorrect, isEscKeyDown, showAlert};
+const debounce = (callback, timeoutDelay = FILTER_BUTTON_CLICK_DELAY) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};
+
+export { getRandomNumber, isLengthCorrect, isEscKeyDown, showAlert, debounce, shuffleArray };
