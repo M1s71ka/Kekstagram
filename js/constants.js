@@ -45,7 +45,9 @@ const Url = {
   'POST': 'https://26.javascript.pages.academy/kekstagram',
 };
 
+const FILE_TYPES = ['jpg', 'jpeg', 'png', 'svg'];
+
 export {
-  MAX_COMMENT_LENGTH, MAX_HASHTAG_COUNT, MAX_HASHTAG_LENGTH, ErrorMessage,
+  MAX_COMMENT_LENGTH, MAX_HASHTAG_COUNT, MAX_HASHTAG_LENGTH, ErrorMessage, FILE_TYPES,
   COUNT_COMMENTS_BLOCK, Scale, Filter, FilterEffect, Url, MAX_COUNT_PHOTO, MAX_COUNT_RANDOM_PHOTOS
 };

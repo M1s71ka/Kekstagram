@@ -1,10 +1,11 @@
-import {isEscKeyDown, isLengthCorrect} from './utils.js';
-import {MAX_COMMENT_LENGTH, MAX_HASHTAG_COUNT, MAX_HASHTAG_LENGTH, ErrorMessage, Scale} from './constants.js';
-import {createSlider, removeEffect} from './slider.js';
-import {sendData} from './api.js';
-import {getMessage} from './messages.js';
+import { isEscKeyDown, isLengthCorrect } from './utils.js';
+import { MAX_COMMENT_LENGTH, MAX_HASHTAG_COUNT, MAX_HASHTAG_LENGTH, ErrorMessage, Scale, FILE_TYPES } from './constants.js';
+import { createSlider, removeEffect } from './slider.js';
+import { sendData } from './api.js';
+import { getMessage } from './messages.js';
 
 const form = document.querySelector('.img-upload__form');
+const fileChooser = document.querySelector('input[type="file"]');
 const photoLoader = document.querySelector('#upload-file');
 const photoEditor = document.querySelector('.img-upload__overlay');
 const closeEditorButton = document.querySelector('#upload-cancel');
@@ -15,7 +16,7 @@ const commentField = form.querySelector('.text__description');
 const smallerButton = document.querySelector('.scale__control--smaller');
 const biggerButton = document.querySelector('.scale__control--bigger');
 const scaleField = document.querySelector('.scale__control--value');
-const previewPhoto = document.querySelector('.img-upload__preview');
+const previewPhoto = document.querySelector('.img-upload__preview img');
 const effectSlider = document.querySelector('.effect-level__slider');
 const regexp = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
 
@@ -102,7 +103,7 @@ const isValidHashtag = (value) => {
   ];
   return errorCheckers.every((check) => {
     const isInvalid = check.checker;
-    if (isInvalid){
+    if (isInvalid) {
       errorMessage = check.error;
     }
     return !isInvalid;
@@ -183,20 +184,28 @@ const removeEscEvent = (field) => {
 };
 
 const onUploadPhoto = () => {
-  document.body.classList.add('modal-open');
-  photoEditor.classList.remove('hidden');
-  scaleField.value = Scale.MAX;
-  if (!effectSlider.hasChildNodes()) {
-    createSlider();
+  const file = fileChooser.files[0];
+  const fileName = file.name.toLowerCase();
+
+  const matches = FILE_TYPES.some((fileType) => fileName.endsWith(fileType));
+
+  if (matches) {
+    document.body.classList.add('modal-open');
+    photoEditor.classList.remove('hidden');
+    previewPhoto.src = URL.createObjectURL(file);
+    scaleField.value = Scale.MAX;
+    if (!effectSlider.hasChildNodes()) {
+      createSlider();
+    }
+    hashtagField.addEventListener('input', onHashtagInputField);
+    commentField.addEventListener('input', onCommentInputField);
+    smallerButton.addEventListener('click', onSmallerButtonClick);
+    biggerButton.addEventListener('click', onBiggerButtonClick);
+    closeEditorButton.addEventListener('click', onCloseEditorButton);
+    window.addEventListener('keydown', onEscKeyDown);
+    removeEscEvent(hashtagField);
+    removeEscEvent(commentField);
   }
-  hashtagField.addEventListener('input', onHashtagInputField);
-  commentField.addEventListener('input', onCommentInputField);
-  smallerButton.addEventListener('click', onSmallerButtonClick);
-  biggerButton.addEventListener('click', onBiggerButtonClick);
-  closeEditorButton.addEventListener('click', onCloseEditorButton);
-  window.addEventListener('keydown', onEscKeyDown);
-  removeEscEvent(hashtagField);
-  removeEscEvent(commentField);
 };
 
 function onCloseEditorButton(evt) {
@@ -233,4 +242,4 @@ const uploadPhoto = () => {
   sendFormData(closeEditor, showErrorMessage);
 };
 
-export {uploadPhoto};
+export { uploadPhoto };
