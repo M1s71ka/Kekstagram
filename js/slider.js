@@ -3,7 +3,7 @@ import {Filter, FilterEffect} from './constants.js';
 const EFFECT_CLASS_POSITION = 1;
 const effectSlider = document.querySelector('.effect-level__slider');
 const effectsContainer = document.querySelector('.effects__list');
-const previewImage = document.querySelector('.img-upload__preview');
+const previewImage = document.querySelector('.img-upload__preview img');
 const effectLevel = document.querySelector('.effect-level__value');
 
 let effectParametr = '';
